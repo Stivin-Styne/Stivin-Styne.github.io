@@ -261,13 +261,53 @@
   .proj-tag { font-size: 11px; background: var(--tag-bg); color: var(--mid); padding: 3px 9px; border-radius: 4px; transition: background 0.2s, color 0.4s ease;}
   .proj-card:hover .proj-tag { background: var(--rule); }
 
-  /* PROJECT IMAGE GALLERY */
+  /* PROJECT IMAGE GALLERY — supports any number of images */
   .proj-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
-  .proj-shot { position: relative; aspect-ratio: 16/10; border-radius: 8px; overflow: hidden; background: var(--off); border: 1px solid var(--rule); }
-  .proj-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .proj-shot-label { position: absolute; top: 6px; left: 6px; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: rgba(0,0,0,0.65); color: #fff; padding: 3px 8px; border-radius: 4px; }
+  .proj-shot { position: relative; aspect-ratio: 16/10; border-radius: 8px; overflow: hidden; background: var(--off); border: 1px solid var(--rule); cursor: pointer; }
+  .proj-shot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease; }
+  .proj-shot:hover img { transform: scale(1.05); }
+  .proj-shot-label { position: absolute; top: 6px; left: 6px; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: rgba(0,0,0,0.65); color: #fff; padding: 3px 8px; border-radius: 4px; z-index: 2; }
   .proj-shot-placeholder { display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 4px; height: 100%; color: var(--lite); font-size: 10px; text-align: center; padding: 8px; }
   .proj-shot-placeholder svg { opacity: 0.4; }
+
+  /* 4th image slot gets blurred + "+N" overlay when there are more than 4 */
+  .proj-shot.proj-shot-more img { filter: blur(4px); transform: scale(1.1); }
+  .proj-shot-more-overlay {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.45); color: #fff; font-family: 'Syne', sans-serif;
+    font-size: 20px; font-weight: 800; z-index: 1;
+  }
+
+  /* LIGHTBOX */
+  .lightbox-overlay {
+    position: fixed; inset: 0; background: rgba(10,10,10,0.92); z-index: 1000;
+    display: none; align-items: center; justify-content: center; padding: 40px;
+  }
+  .lightbox-overlay.open { display: flex; }
+  .lightbox-img-wrap { position: relative; max-width: 900px; width: 100%; }
+  .lightbox-img-wrap img { width: 100%; max-height: 80vh; object-fit: contain; border-radius: 8px; display: block; margin: 0 auto; }
+  .lightbox-close {
+    position: absolute; top: -44px; right: 0; background: rgba(255,255,255,0.1); color: #fff;
+    border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: background 0.2s;
+  }
+  .lightbox-close:hover { background: rgba(255,255,255,0.25); }
+  .lightbox-nav {
+    position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1);
+    color: #fff; border: none; width: 44px; height: 44px; border-radius: 50%; font-size: 20px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;
+  }
+  .lightbox-nav:hover { background: rgba(255,255,255,0.25); }
+  .lightbox-prev { left: -56px; }
+  .lightbox-next { right: -56px; }
+  .lightbox-counter {
+    position: absolute; bottom: -36px; left: 50%; transform: translateX(-50%);
+    color: rgba(255,255,255,0.6); font-size: 12px; letter-spacing: 0.04em;
+  }
+  @media (max-width: 700px) {
+    .lightbox-prev { left: 4px; } .lightbox-next { right: 4px; }
+    .lightbox-overlay { padding: 16px; }
+  }
   
   .proj-links { display: flex; gap: 12px; }
   .proj-link { font-size: 12px; font-weight: 500; color: var(--accent); text-decoration: none; display: flex; align-items: center; gap: 4px; transition: transform 0.2s;}
@@ -502,16 +542,21 @@
       <div class="proj-type">Full Stack · Web</div>
       <div class="proj-title">Nexora</div>
       <div class="proj-desc">Complete e-commerce platform with product listing, cart, order management and an AI-powered customer chatbot for live product enquiries.</div>
-      <div class="proj-gallery">
-        <div class="proj-shot">
-          <!-- Replace src below with your input/code screenshot -->
-          <img src="images/nexora-input.png" alt="Nexora code/input" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>📥<br>Add input screenshot<br><small>images/nexora-input.png</small></div>'">
+      <div class="proj-gallery" data-gallery="nexora">
+        <div class="proj-shot" onclick="openLightbox('nexora', 0)">
+          <img src="images/nexora-1.png" alt="Nexora screenshot 1" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>📥<br>images/nexora-1.png</div>'">
           <span class="proj-shot-label">Input</span>
         </div>
-        <div class="proj-shot">
-          <!-- Replace src below with your output/result screenshot -->
-          <img src="images/nexora-output.png" alt="Nexora output" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>📤<br>Add output screenshot<br><small>images/nexora-output.png</small></div>'">
+        <div class="proj-shot" onclick="openLightbox('nexora', 1)">
+          <img src="images/nexora-2.png" alt="Nexora screenshot 2" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>📤<br>images/nexora-2.png</div>'">
           <span class="proj-shot-label">Output</span>
+        </div>
+        <div class="proj-shot" onclick="openLightbox('nexora', 2)">
+          <img src="images/nexora-3.png" alt="Nexora screenshot 3" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>📤<br>images/nexora-3.png</div>'">
+        </div>
+        <div class="proj-shot proj-shot-more" onclick="openLightbox('nexora', 3)">
+          <img src="images/nexora-4.png" alt="Nexora screenshot 4" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>📤<br>images/nexora-4.png</div>'">
+          <div class="proj-shot-more-overlay">+2</div>
         </div>
       </div>
       <div class="proj-tags">
@@ -526,13 +571,13 @@
       <div class="proj-type">Machine Learning · Deep Learning</div>
       <div class="proj-title">Speech Emotion Recognition</div>
       <div class="proj-desc">End-to-end audio classification pipeline MFCC feature extraction, neural network training and evaluation across 8 emotion labels. Industry mentored.</div>
-      <div class="proj-gallery">
-        <div class="proj-shot">
-          <img src="uploads/Screenshot 2026-06-27 204738.png" alt="SER code/input" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>📥<br>Add input screenshot<br><small>images/ser-input.png</small></div>'">
+      <div class="proj-gallery" data-gallery="ser">
+        <div class="proj-shot" onclick="openLightbox('ser', 0)">
+          <img src="uploads/Screenshot 2026-06-27 204738.png" alt="SER screenshot 1" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>📥<br>images/ser-1.png</div>'">
           <span class="proj-shot-label">Input</span>
         </div>
-        <div class="proj-shot">
-          <img src="uploads/Screenshot 2026-06-27 204831.png" alt="SER output" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>📤<br>Add output screenshot<br><small>images/ser-output.png</small></div>'">
+        <div class="proj-shot" onclick="openLightbox('ser', 1)">
+          <img src="uploads/Screenshot 2026-06-27 204831.png" alt="SER screenshot 2" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>📤<br>images/ser-2.png</div>'">
           <span class="proj-shot-label">Output</span>
         </div>
       </div>
@@ -548,13 +593,13 @@
       <div class="proj-type">UI/UX Design · Figma</div>
       <div class="proj-title">E-Commerce UI Design <span class="wip-badge">In Progress</span></div>
       <div class="proj-desc">13 screens designed from scratch homepage, product listing, cart, checkout, wishlist, login, sign up, account and more. With clickable prototype flows.</div>
-      <div class="proj-gallery">
-        <div class="proj-shot">
-          <img src="images/ecommerce-figma-1.png" alt="E-commerce Figma design screen 1" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>🎨<br>Add Figma screenshot<br><small>images/ecommerce-figma-1.png</small></div>'">
+      <div class="proj-gallery" data-gallery="ecommerce-figma">
+        <div class="proj-shot" onclick="openLightbox('ecommerce-figma', 0)">
+          <img src="images/ecommerce-figma-1.png" alt="E-commerce Figma screenshot 1" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>🎨<br>images/ecommerce-figma-1.png</div>'">
           <span class="proj-shot-label">Design</span>
         </div>
-        <div class="proj-shot">
-          <img src="images/ecommerce-figma-2.png" alt="E-commerce Figma design screen 2" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>🎨<br>Add Figma screenshot<br><small>images/ecommerce-figma-2.png</small></div>'">
+        <div class="proj-shot" onclick="openLightbox('ecommerce-figma', 1)">
+          <img src="images/ecommerce-figma-2.png" alt="E-commerce Figma screenshot 2" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>🎨<br>images/ecommerce-figma-2.png</div>'">
           <span class="proj-shot-label">Design</span>
         </div>
       </div>
@@ -570,13 +615,13 @@
       <div class="proj-type">Mobile UI Design · Figma</div>
       <div class="proj-title">ChatMind <span class="wip-badge">In Progress</span></div>
       <div class="proj-desc">Mobile messenger app UI login screen and chat conversation screen. Focused on text hierarchy, input areas and message bubble layout.</div>
-      <div class="proj-gallery">
-        <div class="proj-shot">
-          <img src="images/chatmind-figma-1.png" alt="ChatMind Figma design screen 1" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>🎨<br>Add Figma screenshot<br><small>images/chatmind-figma-1.png</small></div>'">
+      <div class="proj-gallery" data-gallery="chatmind">
+        <div class="proj-shot" onclick="openLightbox('chatmind', 0)">
+          <img src="images/chatmind-figma-1.png" alt="ChatMind screenshot 1" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>🎨<br>images/chatmind-figma-1.png</div>'">
           <span class="proj-shot-label">Design</span>
         </div>
-        <div class="proj-shot">
-          <img src="images/chatmind-figma-2.png" alt="ChatMind Figma design screen 2" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>🎨<br>Add Figma screenshot<br><small>images/chatmind-figma-2.png</small></div>'">
+        <div class="proj-shot" onclick="openLightbox('chatmind', 1)">
+          <img src="images/chatmind-figma-2.png" alt="ChatMind screenshot 2" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>🎨<br>images/chatmind-figma-2.png</div>'">
           <span class="proj-shot-label">Design</span>
         </div>
       </div>
@@ -592,13 +637,13 @@
       <div class="proj-type">Java · College Lab</div>
       <div class="proj-title">Java Programming</div>
       <div class="proj-desc">Hands-on Java programs from college lab sessions OOP, inheritance, encapsulation, exception handling and file I/O. Verified through HackerRank.</div>
-      <div class="proj-gallery">
-        <div class="proj-shot">
-          <img src="images/java-input.png" alt="Java code/input" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>📥<br>Add code screenshot<br><small>images/java-input.png</small></div>'">
+      <div class="proj-gallery" data-gallery="java">
+        <div class="proj-shot" onclick="openLightbox('java', 0)">
+          <img src="images/java-1.png" alt="Java screenshot 1" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>📥<br>images/java-1.png</div>'">
           <span class="proj-shot-label">Input</span>
         </div>
-        <div class="proj-shot">
-          <img src="images/java-output.png" alt="Java output" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>📤<br>Add output screenshot<br><small>images/java-output.png</small></div>'">
+        <div class="proj-shot" onclick="openLightbox('java', 1)">
+          <img src="images/java-2.png" alt="Java screenshot 2" onerror="this.parentElement.innerHTML='<div class=&quot;proj-shot-placeholder&quot;>📤<br>images/java-2.png</div>'">
           <span class="proj-shot-label">Output</span>
         </div>
       </div>
@@ -682,6 +727,17 @@
   </div>
 </section>
 <footer><p>© 2025 Stivin Styne · Built with HTML, CSS & JavaScript</p></footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="if(event.target===this) closeLightbox()">
+  <div class="lightbox-img-wrap">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <button class="lightbox-nav lightbox-prev" onclick="navLightbox(-1)">‹</button>
+    <img id="lightboxImg" src="" alt="">
+    <button class="lightbox-nav lightbox-next" onclick="navLightbox(1)">›</button>
+    <div class="lightbox-counter" id="lightboxCounter"></div>
+  </div>
+</div>
 
 <script>
   // THEME SWITCHER LOGIC
@@ -845,12 +901,90 @@
   
   window.addEventListener('scroll', updateNavOnScroll);
 
+  // ───────────────────────────────────────────────
+  // LIGHTBOX — supports unlimited images per project
+  // To add more images to a project: just add the
+  // filename to that project's array below. The
+  // gallery cards in the HTML show the first 4 (with
+  // a "+N" badge on the 4th if there are more) and
+  // clicking ANY image opens the full list here.
+  // ───────────────────────────────────────────────
+  const galleryImages = {
+    nexora: ['images/nexora-1.png', 'images/nexora-2.png', 'images/nexora-3.png', 'images/nexora-4.png', 'images/nexora-5.png', 'images/nexora-6.png'],
+    ser: ['uploads/Screenshot 2026-06-27 204738.png', 'uploads/Screenshot 2026-06-27 204831.png'],
+    'ecommerce-figma': ['images/ecommerce-figma-1.png', 'images/ecommerce-figma-2.png'],
+    chatmind: ['images/chatmind-figma-1.png', 'images/chatmind-figma-2.png'],
+    java: ['images/java-1.png', 'images/java-2.png']
+  };
+
+  let currentGallery = null;
+  let currentIndex = 0;
+
+  function openLightbox(galleryKey, index) {
+    currentGallery = galleryKey;
+    currentIndex = index;
+    renderLightbox();
+    document.getElementById('lightboxOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightboxOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function navLightbox(dir) {
+    const imgs = galleryImages[currentGallery] || [];
+    if (imgs.length === 0) return;
+    currentIndex = (currentIndex + dir + imgs.length) % imgs.length;
+    renderLightbox();
+  }
+
+  function renderLightbox() {
+    const imgs = galleryImages[currentGallery] || [];
+    if (imgs.length === 0) return;
+    const imgEl = document.getElementById('lightboxImg');
+    imgEl.src = imgs[currentIndex];
+    imgEl.onerror = () => { imgEl.alt = 'Image not uploaded yet: ' + imgs[currentIndex]; };
+    document.getElementById('lightboxCounter').textContent = (currentIndex + 1) + ' / ' + imgs.length;
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (!document.getElementById('lightboxOverlay').classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navLightbox(-1);
+    if (e.key === 'ArrowRight') navLightbox(1);
+  });
+
+  // Auto-update "+N" badge on 4th thumbnail based on actual image count
+  function updateMoreBadges() {
+    Object.keys(galleryImages).forEach(key => {
+      const total = galleryImages[key].length;
+      const galleryEl = document.querySelector('[data-gallery="' + key + '"]');
+      if (!galleryEl) return;
+      const shots = galleryEl.querySelectorAll('.proj-shot');
+      const extra = total - shots.length;
+      if (extra > 0) {
+        const lastShot = shots[shots.length - 1];
+        lastShot.classList.add('proj-shot-more');
+        let overlay = lastShot.querySelector('.proj-shot-more-overlay');
+        if (!overlay) {
+          overlay = document.createElement('div');
+          overlay.className = 'proj-shot-more-overlay';
+          lastShot.appendChild(overlay);
+        }
+        overlay.textContent = '+' + extra;
+      }
+    });
+  }
+
   // Initialize all features on load
   window.addEventListener('DOMContentLoaded', () => {
       applyTheme(currentThemeSetting); // Apply theme immediately
       initScrollReveal();
       animateCursor();
       updateNavOnScroll();
+      updateMoreBadges();
   });
 </script>
 </body>
