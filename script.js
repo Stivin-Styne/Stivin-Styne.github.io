@@ -168,10 +168,13 @@
   // clicking ANY image opens the full list here.
   // ───────────────────────────────────────────────
   const galleryImages = {
-    nexora: ['uploads/Screenshot 2026-06-27 235648.png', 'uploads/Screenshot 2026-06-28 000435.png', 'uploads/Screenshot 2026-06-28 001030.png', 'uploads/Screenshot 2026-06-28 001606.png', 'uploads/Screenshot 2026-06-28 001948.png', 'uploads/Screenshot 2026-06-28 002449.png', 'uploads/Screenshot 2026-06-28 003054.png', 'uploads/Screenshot 2026-06-28 003415.png'],
-    ser: ['uploads/Screenshot 2026-06-27 204738.png', 'uploads/Screenshot 2026-06-27 204831.png'],
-    'ecommerce-figma': ['uploads/Screenshot 2026-06-28 005542.png', 'uploads/Screenshot 2026-06-28 005936.png', 'uploads/Screenshot 2026-06-28 010846.png', 'uploads/Screenshot 2026-06-28 011159.png', 'uploads/Screenshot 2026-06-28 011450.png', 'uploads/Screenshot 2026-06-28 011704.png', 'uploads/Screenshot 2026-06-28 011903.png', 'uploads/Screenshot 2026-06-28 012105.png', 'uploads/Screenshot 2026-06-28 012317.png'],
-    chatmind: ['uploads/Screenshot 2026-06-28 012613.png', 'uploads/Screenshot 2026-06-28 013055.png', 'uploads/Screenshot 2026-06-28 013326.png', 'uploads/Screenshot 2026-06-28 013547.png', 'uploads/Screenshot 2026-06-28 013819.png']
+    nexora: ['uploads/Nexora Screenshot Images/Screenshot 2026-06-27 235648.png', 'uploads/Nexora Screenshot Images/Screenshot 2026-06-28 000435.png', 'uploads/Nexora Screenshot Images/Screenshot 2026-06-28 001030.png', 'uploads/Nexora Screenshot Images/Screenshot 2026-06-28 001606.png',
+             'uploads/Nexora Screenshot Images/Screenshot 2026-06-28 001948.png', 'uploads/Nexora Screenshot Images/Screenshot 2026-06-28 002449.png', 'uploads/Nexora Screenshot Images/Screenshot 2026-06-28 003054.png', 'uploads/Nexora Screenshot Images/Screenshot 2026-06-28 003415.png'],
+    ser: ['uploads/SER Screenshot Images/Screenshot 2026-06-27 204738.png', 'uploads/SER Screenshot Images/Screenshot 2026-06-27 204831.png'],
+    'ecommerce-figma': ['uploads/E-commerce UI Screenshot Images/Screenshot 2026-06-28 005542.png', 'uploads/E-commerce UI Screenshot Images/Screenshot 2026-06-28 005936.png', 'uploads/E-commerce UI Screenshot Images/Screenshot 2026-06-28 010846.png', 'uploads/E-commerce UI Screenshot Images/Screenshot 2026-06-28 011159.png',
+                        'uploads/E-commerce UI Screenshot Images/Screenshot 2026-06-28 011450.png', 'uploads/E-commerce UI Screenshot Images/Screenshot 2026-06-28 011704.png', 'uploads/E-commerce UI Screenshot Images/Screenshot 2026-06-28 011903.png', 'uploads/E-commerce UI Screenshot Images/Screenshot 2026-06-28 012105.png', 'uploads/E-commerce UI Screenshot Images/Screenshot 2026-06-28 012317.png'],
+    chatmind: ['uploads/ChatMind Screenshot Images/Screenshot 2026-06-28 012613.png', 'uploads/ChatMind Screenshot Images/Screenshot 2026-06-28 013055.png', 'uploads/ChatMind Screenshot Images/Screenshot 2026-06-28 013326.png', 'uploads/ChatMind Screenshot Images/Screenshot 2026-06-28 013547.png',
+               'uploads/ChatMind Screenshot Images/Screenshot 2026-06-28 013819.png']
   };
 
   let currentGallery = null;
